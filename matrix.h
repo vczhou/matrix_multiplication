@@ -1,12 +1,11 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
-#define N 20000
+#define N 2
 
-extern int a[N][N];
-extern int b[N][N];
-extern int product[N][N];
+extern int ma[N][N];
+extern int mb[N][N];
 
-extern void multiply(void);
+extern int* multiply(void);
 
 #endif

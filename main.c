@@ -6,7 +6,8 @@
 
 #include "matrix.h"
 
-int matrix[N][N];
+int ma[N][N];
+int mb[N][N];
 
 double getFrequencyGHz() {
     /* use lscpu to get the CPU frequency in MHz. Only works on Linux */
@@ -58,6 +59,38 @@ void handler() {
     done = 1;
 }
 
+int* answer(int a[N][N], int b[N][N]){
+    static int c[N][N];
+    int sum = 0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            sum = 0;
+            for(int k = 0; k < N; k++){
+                sum += a[i][k] * b[k][j];
+            }
+            c[i][j] = sum;
+        }
+    }
+    return *c;
+}
+
+int compare(int* actual, int* expected){
+    int equal = 1;
+    int actualVal = 0;
+    int expectedVal = 0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            actualVal = *(actual + (i * N + j));
+            expectedVal = *(expected + (i * N + j));
+            if(actualVal != expectedVal){
+                equal = 0;
+                break;
+            }
+        }
+    }
+    return equal;    
+}
+
 int main(int argc, char* argv[]) {
     double freqGHz = getFrequencyGHz();
     double cycleNS = 1 / freqGHz;
@@ -65,17 +98,17 @@ int main(int argc, char* argv[]) {
     printf("freq = %fGHz, cycle_time = %fns\n",freqGHz,cycleNS);
 
     for (int i=0; i<N; i++) {
-        for (int j=i+1; j<N; j++) {
-            int b = rand() & 1;
-            int x = rand();
-            int y = b ? x : x+1;
-            matrix[i][j] = x;
-            matrix[j][i] = y;
+        for (int j=0; j<N; j++) {
+            int x = rand() % 11;
+            int y = rand() % 11;
+            ma[i][j] = x;
+            mb[i][j] = y;
         }
     }
 
-    //int expected[N][N]; 
-    //int actual[N][N];
+    int *expected = answer(ma, mb);
+ 
+    int *actual = 0;
 
     printf("matrix multiplication (per calculation) ...\n");
 
@@ -85,16 +118,17 @@ int main(int argc, char* argv[]) {
 
     alarm(T);
 
-    /*while (!done) {
+    while (!done) {
         actual = multiply();
-        //TODO: Find effective way to compare
-        if (actual != expected) {
-            printf("Not equal");
-            break;
-        }
-    }*/
+    }
 
     report((((N * N) - N) / 2) * count, cycleNS);
+
+    int equal = compare(actual, expected);
+    if(equal)
+        printf("Success!");
+    else
+        printf("Try again :)");
 
     return 0;
 }

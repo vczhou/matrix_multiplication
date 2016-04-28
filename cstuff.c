@@ -6,6 +6,6 @@
 #include "matrix.h"
 
 //Computes matrix multiplication
-void multiply() {
-
+int* multiply() {
+	return 0;
 }
