@@ -91,6 +91,26 @@ int compare(int* actual, int* expected){
     return equal;    
 }
 
+void printMatrix(int* m){
+    int actualVal = 0;
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            actualVal = *(m + (i * N + j));
+            printf("%d ", actualVal);
+        }
+        printf("\n");
+    }
+}
+
+void printAll(int *a, int *b, int *c){
+    printf("Matrix a: \n");
+    printMatrix(a);
+    printf("Matrix b: \n");
+    printMatrix(b);
+    printf("Product: \n");
+    printMatrix(c);
+}
+
 int main(int argc, char* argv[]) {
     double freqGHz = getFrequencyGHz();
     double cycleNS = 1 / freqGHz;
@@ -113,22 +133,25 @@ int main(int argc, char* argv[]) {
     printf("matrix multiplication (per calculation) ...\n");
 
     signal(SIGALRM,handler);
-    uint64_t count = 0;
     done = 0;
 
     alarm(T);
 
+    int count = 0;
     while (!done) {
         actual = multiply();
+        count++;
     }
 
-    report((((N * N) - N) / 2) * count, cycleNS);
+    report(((N * N) * count), cycleNS);
 
     int equal = compare(actual, expected);
     if(equal)
-        printf("Success!");
+        printf("Success!\n");
     else
-        printf("Try again :)");
+        printf("Try again :)\n");
+
+    printAll(*ma, *mb, actual);
 
     return 0;
 }
