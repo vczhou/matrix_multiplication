@@ -17,6 +17,7 @@ int* multiply() {
 
     register int blockSize = 32;
     int sum = 0;
+    /*
     for(int i = 0; i < N; i += blockSize){
         for(int j = 0; j < N; j += blockSize){
                 for(int x = 0; x < N; x++){
@@ -30,7 +31,30 @@ int* multiply() {
                 }
             
         }
+    }*/
+
+    for(int x = 0; x < N; x+=blockSize){
+        for(int y = 0; y < N; y++){
+            for(int z = x; z < x+blockSize && z < N; z++){
+                c[y][z] = 0;
+            }
+        }
+        for(int h = 0; h < N; h+=blockSize){
+            for(int i=0; i<N; i++ ){
+                for(int j = x; j < x + blockSize && j<N;j++){
+                    sum = 0;
+                    for(int k=h; k < h+blockSize && k<N;k++){
+                        sum+= ma[i][k] * mb[k][j];
+                    }
+                    c[i][j] +=sum;
+                }
+            
+            }
+            
+        }
+        
     }
+
     return *c;
 }
 
