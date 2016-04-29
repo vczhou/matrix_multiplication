@@ -1,3 +1,9 @@
+/**
+ * Acknowledgements
+ * Thanks to Professor Gheith for providing the base code to calculate 
+ * the frequency of functions.
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -8,6 +14,7 @@
 
 int ma[N][N];
 int mb[N][N];
+int mc[N][N];
 
 double getFrequencyGHz() {
     /* use lscpu to get the CPU frequency in MHz. Only works on Linux */
@@ -84,6 +91,7 @@ int compare(int* actual, int* expected){
             expectedVal = *(expected + (i * N + j));
             if(actualVal != expectedVal){
                 equal = 0;
+		//printf("I: %d J: %d Actual: %d Expected: %d\n", i, j, actualVal, expectedVal);
                 break;
             }
         }
@@ -137,6 +145,12 @@ int main(int argc, char* argv[]) {
 
     alarm(T);
 
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            mc[i][j] = 0;
+        }
+    }
+
     int count = 0;
     while (!done) {
         actual = multiply();
@@ -151,7 +165,9 @@ int main(int argc, char* argv[]) {
     else
         printf("Try again :)\n");
 
-    printAll(*ma, *mb, actual);
 
+    //printAll(*ma, *mb, actual);
+    //printf("Expected: \n");
+    //printMatrix(expected);
     return 0;
 }
