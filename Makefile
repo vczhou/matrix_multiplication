@@ -1,7 +1,7 @@
 CFLAGS=-g -std=gnu99 -O3 -Werror -Wall
 
-main : main.o cstuff.o pthread_solution.o multithread.o Makefile
-	gcc $(CFLAGS) -o main main.o cstuff.o pthread_solution.o multithread.o -lpthread
+main : main.o cstuff.o pthread_solution.o Makefile
+	gcc $(CFLAGS) -o main main.o cstuff.o pthread_solution.o  -lpthread
 
 %.o : %.c Makefile
 	gcc $(CFLAGS) -MD -c $*.c
