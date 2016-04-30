@@ -42,7 +42,7 @@ int* multiply() {
                 for(int j = x; j < x + blockSize && j < N; j++){
                     sum = 0;
                     for(int k = h; k < h + blockSize && k < N; k++){
-                        sum+= ma[i][k] * mb[k][j];
+                        //sum+= ma[i][k] * mb[k][j];
                     }
                     c[i][j] +=sum;
                 }
@@ -59,7 +59,7 @@ int* multiply() {
 int* naive(void){
     static int c[N][N];
 
-    for(int i = 0; i < N; i++){
+    /*for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             c[i][j] = 0;
         }
@@ -71,6 +71,6 @@ int* naive(void){
                 c[i][j] = c[i][j] + (ma[i][k] * mb[k][j]);
             }
         }
-    }
+    }*/
     return *c;
 }

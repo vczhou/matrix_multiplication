@@ -1,12 +1,13 @@
 #include <pthread.h>
 #include <stdlib.h>
-#include <stio.h>
+#include <stdio.h>
+#include "matrix.h"
 
 int thread_num;
-static int c[N][N];
+static int* c;
 
 void* mult_helper(void * slice) {
-    int s = (int) slice;
+    /*int s = (int) slice;
     int from = (s*N)/thread_num;
     int to = ((s+1)* N)/thread_num;
     int i , j , k;
@@ -18,12 +19,12 @@ void* mult_helper(void * slice) {
             }
         }
         printf("finished slice %d\n", s);
-        return 0;
-    }
+    }*/
+    return 0;
 }
 
 int* multipy(void) {
-    pthread_t* thread;
+    /*pthread_t* thread;
     int i;
     thread_num = N/2;
     thread = (pthread_t*) malloc(thread_num*sizeof(pthread_t));
@@ -38,6 +39,6 @@ int* multipy(void) {
     for (i = 1; i < thread_num; i++) {
         pthread_join(thread[i], NULL);
     }
-    free(thread);
+    free(thread);*/
     return c;
 }
