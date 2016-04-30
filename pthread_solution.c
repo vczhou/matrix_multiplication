@@ -26,7 +26,7 @@ void* mult_helper(void * slice) {
 int* pthreadMultiply(void) {
     pthread_t thread[thread_num];
     int param[thread_num];
-    thread_num = 2;
+    thread_num = 4;
     for (int i = 0; i < thread_num; i++) {
         param[i] = i;
         pthread_create (&thread[i], NULL, mult_helper, (void *) &param[i]);
