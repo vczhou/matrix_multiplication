@@ -59,7 +59,7 @@ int* multiply() {
 int* naive(void){
     static int c[N][N];
 
-    /*for(int i = 0; i < N; i++){
+    for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             c[i][j] = 0;
         }
@@ -71,6 +71,6 @@ int* naive(void){
                 c[i][j] = c[i][j] + (ma[i][k] * mb[k][j]);
             }
         }
-    }*/
+    }
     return *c;
 }

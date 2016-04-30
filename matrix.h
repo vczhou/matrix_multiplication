@@ -1,7 +1,7 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
-#define N 4
+#define N 200
 
 //extern int* ma;
 //extern int* mb;
@@ -10,6 +10,7 @@ extern int mb[N][N];
 
 extern int* multiply();
 extern int* threadMultiply();
+extern int* pthreadMultiply();
 extern int* threadFastMultiply(void);
 extern int* naive(void);
 

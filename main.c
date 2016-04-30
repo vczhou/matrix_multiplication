@@ -94,7 +94,6 @@ int compare(int* actual, int* expected){
             expectedVal = *(expected + (i * N + j));
             if(actualVal != expectedVal){
                 equal = 0;
-		//printf("I: %d J: %d Actual: %d Expected: %d\n", i, j, actualVal, expectedVal);
                 break;
             }
         }
@@ -160,11 +159,13 @@ int main(int argc, char* argv[]) {
 
     int count = 0;
     while (!done) {
-        actual = threadFastMultiply();
+        actual = pthreadMultiply();
         count++;
     }
 
     report(((N * N) * count), cycleNS);
+
+    printf("Count: %d\n", count);
 
     int equal = compare(actual, expected);
     if(equal)
