@@ -12,13 +12,6 @@ int* multiply(){
     memset(*c, 0, (sizeof(int) * N * N));
     register int blockSize = 8;
 
-    /*printf("A: \n");
-    printMatrix(*ma);
-    printf("B: \n");
-    printMatrix(*mb);
-    printf("C: \n");
-    printMatrix(*c);*/
-    
     for(int i = 0; i < N; i += blockSize){
         for(int j = 0; j < N; j += blockSize){
             for(int k = 0; k < N; k += blockSize){
@@ -26,21 +19,13 @@ int* multiply(){
                     for(int y = j; (y < N) && (y < j + blockSize); y++){
                         for(int z = k; (z < N) && (z < k + blockSize); z++){
                             c[x][y] += ma[x][z] * mb[z][y];
-                            /*if(x == 0){
-		                        printf("c[x][y]: %d\n", c[x][y]);
-                                printf("ma[x][z]: %d\n", ma[x][z]);	
-                                printf("mb[z][y]: %d\n", ma[z][y]);	
-                            }*/
                         }
                     }
-        	    //printMatrix(*c);
                 }
             }
         }
     }
     
-    //printf("Final Answer:\n");
-    //printMatrix(*c);
     return *c;
 }
 
@@ -64,11 +49,8 @@ int* multiply2() {
                     }
                     c[i][j] += sum;
                 }
-            
             }
-            
         }
-        
     }
 
     return *c;

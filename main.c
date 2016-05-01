@@ -131,63 +131,38 @@ void printResults(double cycleNS, int count, int *actual, int* expected){
         printf("Success!\n");
     else
         printf("Try again :)\n");
+    
+    printAll(*ma, *mb, actual);
+    printf("Expected: \n");
+    printMatrix(expected);
 }
 
-void runMultiply(int (*func), double cycleNS, int* expected){
-    //printf("Naive: \n");
-    signal(SIGALRM, handler);
-    alarm(T);
+void run(char* what, int* (*func)(), double cycleNS, int* expected) {
+    uint64_t count = 0;
     done = 0;
-    int count = 0;
     int *actual = 0;
+
+    printf("%s\n",what);
+    signal(SIGALRM,handler);
+    alarm(T);
+    
     while (!done) {
-        actual = func;
+        actual = func();
         count++;
     }
-    //printMatrix(actual);
+
     printResults(cycleNS, count, actual, expected);
 }
 
-void runNaive(double cycleNS, int* expected){
-    printf("Naive: \n");
-    signal(SIGALRM, handler);
-    alarm(T);
-    done = 0;
-    int count = 0;
-    int *actual = 0;
-    while (!done) {
-        actual = naive();
-        count++;
+void fillMatrices(){
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            int x = rand() % 11;
+            int y = rand() % 11;
+            ma[i][j] = x;
+            mb[i][j] = y;
+        }
     }
-    printResults(cycleNS, count, actual, expected);
-}
-
-void runBlocking(double cycleNS, int* expected){
-    printf("Blocking: \n");
-    signal(SIGALRM, handler);
-    alarm(T);
-    done = 0;
-    int count = 0;
-    int *actual = 0;
-    while (!done) {
-        actual = multiply();
-        count++;
-    }
-    printResults(cycleNS, count, actual, expected);
-}
-
-void runMulti(double cycleNS, int* expected){
-    printf("Multi-thread: \n");
-    signal(SIGALRM, handler);
-    alarm(T);
-    done = 0;
-    int count = 0;
-    int *actual = 0;
-    while (!done) {
-        actual = pthreadMultiply();
-        count++;
-    }
-    printResults(cycleNS, count, actual, expected);
 }
 
 int main(int argc, char* argv[]) {
@@ -196,25 +171,16 @@ int main(int argc, char* argv[]) {
 
     printf("freq = %fGHz, cycle_time = %fns\n",freqGHz,cycleNS);
 
-    for (int i=0; i<N; i++) {
-        for (int j=0; j<N; j++) {
-            int x = rand() % 11;
-            int y = rand() % 11;
-            ma[i][j] = x;
-            mb[i][j] = y;
-        }
-    }
+    fillMatrices();
 
     int *expected = answer(*ma, *mb);
  
     printf("matrix multiplication (per calculation) ...\n");
 
-    //runMultiply((int *)naive, cycleNS, expected);
-
-    runNaive(cycleNS, expected);
-    runBlocking(cycleNS, expected);
-    runMulti(cycleNS, expected);
-
+    //run("Naive", naive, cycleNS, expected);
+    //run("Blocking", multiply, cycleNS, expected);
+    //run("Multi-threading", pthreadMultiply, cycleNS, expected);
+    run("Multi-threading with blocking", pthreadBlockMultiply, cycleNS, expected);
     //printAll(*ma, *mb, actual);
     //printf("Expected: \n");
     //printMatrix(expected);
