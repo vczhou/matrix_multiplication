@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
 
     int count = 0;
     while (!done) {
-        actual = pthreadMultiply();
+        actual = multiply();
         count++;
     }
 

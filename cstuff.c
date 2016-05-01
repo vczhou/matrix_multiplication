@@ -40,11 +40,11 @@ int* multiply() {
         for(int h = 0; h < N; h += blockSize){
             for(int i=0; i < N; i++ ){
                 for(int j = x; j < x + blockSize && j < N; j++){
-                    sum = 0;
+	            sum = 0;	
                     for(int k = h; k < h + blockSize && k < N; k++){
-                        //sum+= ma[i][k] * mb[k][j];
+                        sum += ma[i][k] * mb[k][j];
                     }
-                    c[i][j] +=sum;
+                    c[i][j] += sum;
                 }
             
             }
