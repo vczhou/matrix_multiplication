@@ -1,3 +1,9 @@
+/*
+ * used these as references to learn about multithreading :
+ * https://zhaowuluo.wordpress.com/2011/01/03/pthread-atrix-multiplication-on-unixlinux/
+ * https://gist.github.com/rhinoceraptor/33935694dc47608861bc
+ * http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html
+ * */
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>

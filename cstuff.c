@@ -1,3 +1,8 @@
+/*
+ * used this as reference to think about blocking:
+ * http://www.cs.cornell.edu/~bindel/class/cs6210-f12/notes/lec02.pdf
+ * Francis helped with blocking as well
+ * */
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
