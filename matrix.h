@@ -1,7 +1,7 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
-#define N 200
+#define N 2000
 
 //extern int* ma;
 //extern int* mb;
@@ -13,5 +13,6 @@ extern int* threadMultiply();
 extern int* pthreadMultiply();
 extern int* threadFastMultiply(void);
 extern int* naive(void);
+extern void printMatrix(int*);
 
 #endif

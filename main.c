@@ -121,14 +121,73 @@ void printAll(int *a, int *b, int *c){
     printMatrix(c);
 }
 
-void fillMatrix(int *matrix){
-    for(int i = 0; i < N; i++){
-        for(int j = 0; j < N; j++){
-            //matrix[i][j] = rand() % 11;
-            *(matrix + (i * N + j)) = rand() % 11;
-        }
+void printResults(double cycleNS, int count, int *actual, int* expected){
+    report(((N * N) * count), cycleNS);
+
+    printf("Count: %d\n", count);
+
+    int equal = compare(actual, expected);
+    if(equal)
+        printf("Success!\n");
+    else
+        printf("Try again :)\n");
+}
+
+void runMultiply(int (*func), double cycleNS, int* expected){
+    //printf("Naive: \n");
+    signal(SIGALRM, handler);
+    alarm(T);
+    done = 0;
+    int count = 0;
+    int *actual = 0;
+    while (!done) {
+        actual = func;
+        count++;
     }
-    return;
+    //printMatrix(actual);
+    printResults(cycleNS, count, actual, expected);
+}
+
+void runNaive(double cycleNS, int* expected){
+    printf("Naive: \n");
+    signal(SIGALRM, handler);
+    alarm(T);
+    done = 0;
+    int count = 0;
+    int *actual = 0;
+    while (!done) {
+        actual = naive();
+        count++;
+    }
+    printResults(cycleNS, count, actual, expected);
+}
+
+void runBlocking(double cycleNS, int* expected){
+    printf("Blocking: \n");
+    signal(SIGALRM, handler);
+    alarm(T);
+    done = 0;
+    int count = 0;
+    int *actual = 0;
+    while (!done) {
+        actual = multiply();
+        count++;
+    }
+    printResults(cycleNS, count, actual, expected);
+}
+
+void runMulti(double cycleNS, int* expected){
+    printf("Multi-thread: \n");
+    signal(SIGALRM, handler);
+    alarm(T);
+    done = 0;
+    int count = 0;
+    int *actual = 0;
+    while (!done) {
+        actual = pthreadMultiply();
+        count++;
+    }
+    printResults(cycleNS, count, actual, expected);
 }
 
 int main(int argc, char* argv[]) {
@@ -148,31 +207,13 @@ int main(int argc, char* argv[]) {
 
     int *expected = answer(*ma, *mb);
  
-    int *actual = 0;
-
     printf("matrix multiplication (per calculation) ...\n");
 
-    signal(SIGALRM,handler);
-    done = 0;
+    //runMultiply((int *)naive, cycleNS, expected);
 
-    alarm(T);
-
-    int count = 0;
-    while (!done) {
-        actual = multiply();
-        count++;
-    }
-
-    report(((N * N) * count), cycleNS);
-
-    printf("Count: %d\n", count);
-
-    int equal = compare(actual, expected);
-    if(equal)
-        printf("Success!\n");
-    else
-        printf("Try again :)\n");
-
+    runNaive(cycleNS, expected);
+    runBlocking(cycleNS, expected);
+    runMulti(cycleNS, expected);
 
     //printAll(*ma, *mb, actual);
     //printf("Expected: \n");
