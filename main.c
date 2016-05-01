@@ -132,9 +132,9 @@ void printResults(double cycleNS, int count, int *actual, int* expected){
     else
         printf("Try again :)\n");
     
-    printAll(*ma, *mb, actual);
-    printf("Expected: \n");
-    printMatrix(expected);
+    //printAll(*ma, *mb, actual);
+    //printf("Expected: \n");
+    //printMatrix(expected);
 }
 
 void run(char* what, int* (*func)(), double cycleNS, int* expected) {
@@ -177,9 +177,9 @@ int main(int argc, char* argv[]) {
  
     printf("matrix multiplication (per calculation) ...\n");
 
-    //run("Naive", naive, cycleNS, expected);
-    //run("Blocking", multiply, cycleNS, expected);
-    //run("Multi-threading", pthreadMultiply, cycleNS, expected);
+    run("Naive", naive, cycleNS, expected);
+    run("Blocking", multiply, cycleNS, expected);
+    run("Multi-threading", pthreadMultiply, cycleNS, expected);
     run("Multi-threading with blocking", pthreadBlockMultiply, cycleNS, expected);
     //printAll(*ma, *mb, actual);
     //printf("Expected: \n");

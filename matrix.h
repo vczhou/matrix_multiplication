@@ -1,7 +1,7 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
-#define N 16
+#define N 2000
 
 //extern int* ma;
 //extern int* mb;
