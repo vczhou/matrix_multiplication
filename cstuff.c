@@ -3,33 +3,51 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <string.h>
 #include "matrix.h"
 
 //Computes matrix multiplication
-int* multiply() {
+int* multiply(){
     static int c[N][N];
+    memset(*c, 0, (sizeof(int) * N * N));
     register int blockSize = 8;
-    int sum = 0;
-    /*
-    for(int i = 0; i < N; i++){
-        for(int j = 0; j < N; j++){
-            c[i][j] = 0;
-        }
-    }
+
+    /*printf("A: \n");
+    printMatrix(*ma);
+    printf("B: \n");
+    printMatrix(*mb);
+    printf("C: \n");
+    printMatrix(*c);*/
+    
     for(int i = 0; i < N; i += blockSize){
         for(int j = 0; j < N; j += blockSize){
-                for(int x = 0; x < N; x++){
-                    for(int y = i; y < i + blockSize && y < N; y++){
-                            sum = c[x][y];
-                        for(int z = j; z < j + blockSize && z < N; z++){
-                            sum += (ma[x][z] * mb[z][y]);
+            for(int k = 0; k < N; k += blockSize){
+                for(int x = i; (x < N) && (x < i + blockSize); x++){
+                    for(int y = j; (y < N) && (y < j + blockSize); y++){
+                        for(int z = k; (z < N) && (z < k + blockSize); z++){
+                            c[x][y] += ma[x][z] * mb[z][y];
+                            /*if(x == 0){
+		                        printf("c[x][y]: %d\n", c[x][y]);
+                                printf("ma[x][z]: %d\n", ma[x][z]);	
+                                printf("mb[z][y]: %d\n", ma[z][y]);	
+                            }*/
                         }
-                        c[x][y] = sum;
                     }
+        	    //printMatrix(*c);
                 }
-            
+            }
         }
-    }*/
+    }
+    
+    //printf("Final Answer:\n");
+    //printMatrix(*c);
+    return *c;
+}
+
+int* multiply2() {
+    static int c[N][N];
+    register int blockSize = 8;
+    int sum = 0 ;
 
     for(int x = 0; x < N; x+=blockSize){
         for(int y = 0; y < N; y++){
