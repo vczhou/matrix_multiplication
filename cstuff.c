@@ -17,7 +17,7 @@ int* multiply(){
     register int blockSize = 8;
 
     /* Initialize product matrix to 0 */
-    memset(*c, 0, (sizeof(int) * N * N))i;
+    memset(*c, 0, (sizeof(int) * N * N));
 
     for(int i = 0; i < N; i += blockSize){
         for(int j = 0; j < N; j += blockSize){
