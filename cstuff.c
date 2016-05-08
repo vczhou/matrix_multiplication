@@ -11,11 +11,13 @@
 #include <string.h>
 #include "matrix.h"
 
-//Computes matrix multiplication
+/* Blocking method */
 int* multiply(){
     static int c[N][N];
-    memset(*c, 0, (sizeof(int) * N * N));
     register int blockSize = 8;
+
+    /* Initialize product matrix to 0 */
+    memset(*c, 0, (sizeof(int) * N * N))i;
 
     for(int i = 0; i < N; i += blockSize){
         for(int j = 0; j < N; j += blockSize){
@@ -34,9 +36,11 @@ int* multiply(){
     return *c;
 }
 
+/* Naive */
 int* naive(void){
     static int c[N][N];
 
+    /* Initialize product matrix to 0 */
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             c[i][j] = 0;

@@ -13,6 +13,7 @@
 int thread_num;
 static int c[N][N];
 
+/* Multi-threading with blocking */
 void* block_helper(void * slice) {
     int s = *(int *) slice;
     int from = (s * N)/thread_num;
@@ -42,13 +43,16 @@ int* pthreadBlockMultiply(void) {
     int param[thread_num];
     thread_num = 4;
 
+	/* Initialize product matrix to 0 */
     memset(*c, 0, (sizeof(int) * N * N));
 
+	/* Create each thread */
     for (int i = 0; i < thread_num; i++) {
         param[i] = i;
         pthread_create (&thread[i], NULL, block_helper, (void *) &param[i]);
     }
 
+	/* Join the threads together */
     for (int i = 0; i < thread_num; i++) {
         pthread_join(thread[i], NULL);
     }
@@ -56,14 +60,15 @@ int* pthreadBlockMultiply(void) {
     return *c;
 }
 
+/* Multi-threading no blocking*/
 void* mult_helper(void * slice) {
     int s = *(int *) slice;
     int from = (s * N)/thread_num;
     int to = ((s + 1) *  N)/thread_num;
     int i , j , k;
+
     for (i = from; i < to; i++) {
         for (j= 0; j < N; j++) {
-            //c[i][j]= 0;
             for (k = 0; k < N; k++) {
                 c[i][j] += ma[i][k]*mb[k][j];
             }
@@ -78,13 +83,16 @@ int* pthreadMultiply(void) {
     int param[thread_num];
     thread_num = 4;
 
+	/* Initialize product matrix to 0 */
     memset(*c, 0, (sizeof(int) * N * N));
 
+	/* Create each thread */
     for (int i = 0; i < thread_num; i++) {
         param[i] = i;
         pthread_create (&thread[i], NULL, mult_helper, (void *) &param[i]);
     }
 
+	/* Join the threads together */
     for (int i = 0; i < thread_num; i++) {
         pthread_join(thread[i], NULL);
     }
